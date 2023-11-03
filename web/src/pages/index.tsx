@@ -37,7 +37,7 @@ export default function Home() {
         router.push(`/home`);
       } else if (response.status === 404) {
         // setup profile
-        router.push(`/profile/setup?id=${uid}`);
+        router.push(`/profile/setup`);
       } else {
         console.error(response.statusText, data.message);
       }
