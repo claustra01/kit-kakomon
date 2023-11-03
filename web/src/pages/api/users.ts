@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           data: {
             id: newUser.id,
             email: newUser.email,
-            entranceYear: newUser.entrance_year,
+            entranceYear: Number(newUser.entrance_year),
             department: newUser.department,
           }
         })
@@ -101,7 +101,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             id: userData.id.toString()
           },
           data: {
-            entranceYear: userData.entrance_year,
+            entranceYear: Number(userData.entrance_year),
             department: userData.department,
             role: userData.role,
           }
