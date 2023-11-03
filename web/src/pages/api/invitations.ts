@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break
         }
       } else {
-        // if id is not specified, return all users
+        // if id is not specified, return all invitations
         try {
           const allInvitations = await prisma.invitations.findMany({
             orderBy: {
@@ -76,7 +76,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
 
-    case 'DELETE':
+    /*
+      @param id: string
+    */
+      case 'DELETE':
       const deleteId = req.query.id
       if (deleteId == null) {
         res.status(400).json({ message: 'Missing required parameter: id' })
