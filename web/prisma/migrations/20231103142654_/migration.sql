@@ -28,7 +28,7 @@ CREATE TABLE "invitations" (
     "id" TEXT NOT NULL,
     "publisher" TEXT NOT NULL,
     "validCount" INTEGER NOT NULL,
-    "ExpiredAt" TIMESTAMP(3) NOT NULL,
+    "expiredAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
