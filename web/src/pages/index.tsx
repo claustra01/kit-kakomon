@@ -11,11 +11,11 @@ export default function Home() {
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
 
   const firebaseLogin = async () => {
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    await signInWithEmailAndPassword(auth, email, password)
+    .then(async (userCredential) => {
       const user = userCredential.user;
       if (!user.emailVerified) {
-        sendEmailVerification(user)
+        await sendEmailVerification(user)
         router.push('/verify-email');
       }
       setFirebaseUser(user);
@@ -27,14 +27,31 @@ export default function Home() {
     });
   }
 
-  const createUser = async () => {
-    
+  const checkUser = async () => {
+    try {
+      const uid = firebaseUser?.uid;
+      const response = await fetch(`/api/users?id=${uid}`);
+      const data = await response.json();
+      if (response.ok) {
+        // redirect to home
+        router.push(`/home`);
+      } else if (response.status === 404) {
+        // setup profile
+        router.push(`/profile/setup?id=${uid}`);
+      } else {
+        console.error(response.statusText, data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const signIn = async () => {
     try {
       firebaseLogin();
-      createUser();
+      if (firebaseUser?.emailVerified) {
+        checkUser();
+      }
     } catch (error) {
       console.error(error);
     }
