@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break
       }
       try {
-        const CreatedUser = await prisma.users.create({
+        const createdUser = await prisma.users.create({
           data: {
             id: newUser.id,
             email: newUser.email,
@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             department: newUser.department,
           }
         })
-        res.status(200).json(CreatedUser)
+        res.status(200).json(createdUser)
         break
       } catch(error) {
         res.status(500).json({ message: error })
