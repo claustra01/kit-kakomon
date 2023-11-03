@@ -38,6 +38,13 @@ enum Semester {
   MASTER
 }
 
+enum FileType {
+  MID_EXAM
+  FINAL_EXAM
+  REPORT
+  OTHER
+}
+
 model users {
   id           String     @id     // firebase auth uid
   email        String     @unique // kyutech email only
@@ -71,6 +78,8 @@ model files {
   publisher  String     // uid
   subject    String     // subject id
   year       Int
+  type       FileType
+  isAnswer   Boolean    @default(false)
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 }

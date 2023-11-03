@@ -7,6 +7,9 @@ CREATE TYPE "Department" AS ENUM ('COMPUTER_SCIENCE_1', 'COMPUTER_SCIENCE_2', 'C
 -- CreateEnum
 CREATE TYPE "Semester" AS ENUM ('B1_SPRING', 'B1_AUTUMN', 'B2_SPRING', 'B2_AUTUMN', 'B3_SPRING', 'B3_AUTUMN', 'B4', 'MASTER');
 
+-- CreateEnum
+CREATE TYPE "FileType" AS ENUM ('MID_EXAM', 'FINAL_EXAM', 'REPORT', 'OTHER');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
@@ -50,6 +53,8 @@ CREATE TABLE "files" (
     "publisher" TEXT NOT NULL,
     "subject" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
+    "type" "FileType" NOT NULL,
+    "isAnswer" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
