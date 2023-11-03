@@ -19,10 +19,10 @@ export default function Register() {
   }
 
   const firebaseRegister = async () => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    await createUserWithEmailAndPassword(auth, email, password)
+    .then(async () => {
       if (auth.currentUser) {
-        sendEmailVerification(auth.currentUser)
+        await sendEmailVerification(auth.currentUser)
         router.push('/verify-email');
       }
     })
