@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+  USER
+}
+
+enum Department {
+  COMPUTER_SCIENCE_1
+  COMPUTER_SCIENCE_2
+  COMPUTER_SCIENCE_3
+  ARTIFICIAL_INTELLIGENCE
+  COMPUTER_SCIENCE_AND_NETWORKS
+  INTELLIGENT_SYSTEMS
+  PHYSICS_INFORMATION
+  BIOINFORMATICS
+}
+
+model users {
+  id           String     @id     // firebase auth uid
+  email        String     @unique // kyutech email only
+  entranceYear Int
+  department   Department
+  role         Role       @default(USER)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model invitations {
+  id         String   @id @default(uuid())
+  publisher  String   // uid
+  validCount Int
+  ExpiredAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
