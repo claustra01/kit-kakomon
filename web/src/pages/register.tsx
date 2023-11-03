@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from '@/firebase';
 
-export default function Home() {
+export default function Register() {
 
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
@@ -18,7 +18,7 @@ export default function Home() {
     }
   }
 
-  const firebaseLogin = async () => {
+  const firebaseRegister = async () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
       if (auth.currentUser) {
@@ -36,7 +36,7 @@ export default function Home() {
   const signIn = async () => {
     try {
       inputValidation();
-      firebaseLogin();
+      firebaseRegister();
     } catch (error) {
       console.error(error);
     }
