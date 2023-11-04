@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { User } from "firebase/auth";
 import { auth } from "@/firebase";
+import InvitationPublisher from "@/components/InvitationPublisher";
 
 
 export default function Management() {
@@ -67,11 +68,12 @@ export default function Management() {
     if (firebaseUser) {
       checkUserRole();
     }
-  }, [firebaseUser])
+  }, [firebaseUser]);
 
   return (
     <>
       <h1>management</h1>
+      <InvitationPublisher publisherId={firebaseUser ? firebaseUser.uid : ''} />
     </>
   );
 }
