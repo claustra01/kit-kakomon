@@ -45,41 +45,48 @@ enum FileType {
   OTHER
 }
 
-model users {
-  id           String     @id     // firebase auth uid
-  email        String     @unique // kyutech email only
+model User {
+  id           String       @id // firebase auth uid
+  email        String       @unique
   entranceYear Int
   department   Department
-  role         Role       @default(USER)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  role         Role         @default(USER)
+  invitedBy    String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  Invitation   Invitation[]
+  File         File[]
 }
 
-model invitations {
-  id         String   @id @default(uuid())
-  publisher  String   // uid
-  validCount Int
-  expiredAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model Invitation {
+  id          String   @id @default(uuid())
+  publisher   User     @relation(fields: [publisherId], references: [id])
+  publisherId String
+  validCount  Int
+  expiredAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
-model subjects {
+model Subject {
   id         String     @id @default(uuid())
   name       String
   department Department
   semester   Semester
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+  File       File[]
 }
 
-model files {
-  url        String     @id
-  publisher  String     // uid
-  subject    String     // subject id
-  year       Int
-  type       FileType
-  isAnswer   Boolean    @default(false)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+model File {
+  url         String   @id
+  publisher   User     @relation(fields: [publisherId], references: [id])
+  publisherId String
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  subjectId   String
+  year        Int
+  type        FileType
+  isAnswer    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

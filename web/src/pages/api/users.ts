@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break
       }
       try {
-        const createdUser = await prisma.users.create({
+        const createdUser = await prisma.user.create({
           data: {
             id: newUser.id,
             email: newUser.email,
@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (searchId != null) {
         // if id is specified, search for the user with the id
         try {
-          const searchedUser = await prisma.users.findUnique({
+          const searchedUser = await prisma.user.findUnique({
             where: {
               id: searchId.toString()
             }
@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } else {
         // if id is not specified, return all users
         try {
-          const allUsers = await prisma.users.findMany({
+          const allUsers = await prisma.user.findMany({
             orderBy: {
               createdAt: 'asc'
             }
@@ -96,7 +96,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       // データベース内の投稿データを更新
       try {
-        const updatedUser = await prisma.users.update({
+        const updatedUser = await prisma.user.update({
           where: {
             id: userData.id.toString()
           },

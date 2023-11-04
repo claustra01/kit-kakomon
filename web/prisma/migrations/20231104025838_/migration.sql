@@ -11,32 +11,33 @@ CREATE TYPE "Semester" AS ENUM ('B1_SPRING', 'B1_AUTUMN', 'B2_SPRING', 'B2_AUTUM
 CREATE TYPE "FileType" AS ENUM ('MID_EXAM', 'FINAL_EXAM', 'REPORT', 'OTHER');
 
 -- CreateTable
-CREATE TABLE "users" (
+CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "entranceYear" INTEGER NOT NULL,
     "department" "Department" NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
+    "invitedBy" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "invitations" (
+CREATE TABLE "Invitation" (
     "id" TEXT NOT NULL,
-    "publisher" TEXT NOT NULL,
+    "publisherId" TEXT NOT NULL,
     "validCount" INTEGER NOT NULL,
     "expiredAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "invitations_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Invitation_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "subjects" (
+CREATE TABLE "Subject" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "department" "Department" NOT NULL,
@@ -44,22 +45,31 @@ CREATE TABLE "subjects" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "subjects_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Subject_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "files" (
+CREATE TABLE "File" (
     "url" TEXT NOT NULL,
-    "publisher" TEXT NOT NULL,
-    "subject" TEXT NOT NULL,
+    "publisherId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "type" "FileType" NOT NULL,
     "isAnswer" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "files_pkey" PRIMARY KEY ("url")
+    CONSTRAINT "File_pkey" PRIMARY KEY ("url")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- AddForeignKey
+ALTER TABLE "Invitation" ADD CONSTRAINT "Invitation_publisherId_fkey" FOREIGN KEY ("publisherId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD CONSTRAINT "File_publisherId_fkey" FOREIGN KEY ("publisherId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD CONSTRAINT "File_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "Subject"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

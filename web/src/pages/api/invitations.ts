@@ -23,9 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break
       }
       try {
-        const createdInvitation = await prisma.invitations.create({
+        console.log(newInvitation)
+        const createdInvitation = await prisma.invitation.create({
           data: {
-            publisher: newInvitation.publisher,
+            publisherId: newInvitation.publisher,
             validCount: Number(newInvitation.valid_count),
             expiredAt: newInvitation.expired_at,
           }
@@ -45,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (searchId != null) {
         // if id is specified, search for the user with the id
         try {
-          const searchedInvitation = await prisma.invitations.findUnique({
+          const searchedInvitation = await prisma.invitation.findUnique({
             where: {
               id: searchId.toString()
             }
@@ -63,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } else {
         // if id is not specified, return all invitations
         try {
-          const allInvitations = await prisma.invitations.findMany({
+          const allInvitations = await prisma.invitation.findMany({
             orderBy: {
               expiredAt: 'asc'
             }
@@ -86,7 +87,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break
       }
       try {
-        const deletedInvitation = await prisma.invitations.delete({
+        const deletedInvitation = await prisma.invitation.delete({
           where: {
             id: deleteId.toString()
           }
