@@ -51,11 +51,13 @@ model User {
   entranceYear Int
   department   Department
   role         Role         @default(USER)
-  invitedBy    String?
+  inviter      User?        @relation("InvitedBy", fields: [inviterId], references: [id])
+  inviterId    String?
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
-  Invitation   Invitation[]
-  File         File[]
+  invitee      User[]       @relation("InvitedBy")
+  invitation   Invitation[]
+  file         File[]
 }
 
 model Invitation {
@@ -75,7 +77,7 @@ model Subject {
   semester   Semester
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
-  File       File[]
+  file       File[]
 }
 
 model File {
