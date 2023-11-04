@@ -39,7 +39,7 @@ export default function Management() {
       const data = await response.json();
       if (response.ok) {
         const role = data.role;
-        if (role != 'ADMIN') {
+        if (role !== 'ADMIN') {
           console.error('User role permission denied');
           router.push('/');
         }

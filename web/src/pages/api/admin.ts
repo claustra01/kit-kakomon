@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(404).json({ message: 'User not found' })
           break
         }
-        if (adminUser.role != 'ADMIN') {
+        if (adminUser.role !== 'ADMIN') {
           res.status(403).json({ message: 'Permission denied' })
           break
         }
