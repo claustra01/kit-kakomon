@@ -82,7 +82,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       @param id: string // firebase auth uid
       @param entrance_year: int
       @param department: string
-      @param role: string
     */
     case 'PUT':
       const userData = req.body
@@ -90,8 +89,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(400).json({ message: 'Request body is empty' })
         break
       }
-      if (userData.id == null || userData.entrance_year == null || userData.department == null || userData.role == null) {
-        res.status(400).json({ message: 'Missing one or more required parameters: id, entrance_year, department, or role' })
+      if (userData.id == null || userData.entrance_year == null || userData.department == null) {
+        res.status(400).json({ message: 'Missing one or more required parameters: id, entrance_year, or department' })
         break
       }
       // データベース内の投稿データを更新
@@ -103,7 +102,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           data: {
             entranceYear: Number(userData.entrance_year),
             department: userData.department,
-            role: userData.role,
           }
         })
         res.status(200).json(updatedUser)
